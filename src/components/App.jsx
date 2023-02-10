@@ -4,79 +4,68 @@ import { getApiImages } from '../services/services';
 import ImageGallery from './ImageGallery/ImageGallery';
 import { Dna } from 'react-loader-spinner';
 import Button from './Button/Button';
+import { useState, useEffect } from 'react';
 
-class App extends Component {
-  state = {
-    searchQuery: '',
-    items: [],
-    page: 1,
-    loadMore: false,
-    loading: false,
-    error: '',
-  };
+const App = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [loadMore, setLoadMore] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  async componentDidUpdate(_, prevState) {
-    const { searchQuery, page, loadMore } = this.state;
+  useEffect(() => {
+    if (!searchQuery) return;
 
-    if (loadMore || searchQuery !== prevState.searchQuery) {
+    const fetchData = async () => {
       try {
-        this.setState({ loading: true, loadMore: false });
-
+        setLoading(true);
+        setLoadMore(false);
         const { data } = await getApiImages(searchQuery, page);
-
-        this.setState(prevState => ({
-          items: [...prevState.items, ...data.hits],
-        }));
+        setItems(prevItems => [...prevItems, ...data.hits]);
       } catch ({ message }) {
-        this.setState({ error: message });
+        setError(message);
       } finally {
-        this.setState({ loading: false });
+        setLoading(false);
       }
-    }
-  }
+    };
+    fetchData();
+  }, [page, searchQuery]);
 
-  getValue = searchQuery => {
-    this.setState({
-      items: [],
-      page: 1,
-      searchQuery,
-    });
+  const getValue = searchQuery => {
+    setItems([]);
+    setPage(1);
+    setSearchQuery(searchQuery);
   };
 
-  loadMore = () => {
-    this.setState(prevState => ({
-      page: (prevState.page += 1),
-      loadMore: !prevState.loadMore,
-    }));
+  const loadMoreFn = () => {
+    setPage(prevPage => (prevPage += 1));
+    setLoadMore(prevLoad => !prevLoad);
   };
 
-  render() {
-    const { items, loading, error } = this.state;
+  return (
+    <>
+      <Searchbar onSubmit={getValue} />
+      {error && <p className="error">{error}</p>}
+      {loading ? (
+        <Dna
+          visible={true}
+          height="180"
+          width="180"
+          ariaLabel="dna-loading"
+          wrapperStyle={{
+            marginLeft: '50%',
+            transform: 'translate(-50%)',
+            marginTop: 150,
+          }}
+        />
+      ) : (
+        <ImageGallery items={items} />
+      )}
 
-    return (
-      <>
-        <Searchbar onSubmit={this.getValue} />
-        {error && <p className="error">{error}</p>}
-        {loading ? (
-          <Dna
-            visible={true}
-            height="180"
-            width="180"
-            ariaLabel="dna-loading"
-            wrapperStyle={{
-              marginLeft: '50%',
-              transform: 'translate(-50%)',
-              marginTop: 150,
-            }}
-          />
-        ) : (
-          <ImageGallery items={items} />
-        )}
-
-        {Boolean(items.length) && <Button loadMore={this.loadMore} />}
-      </>
-    );
-  }
-}
+      {Boolean(items.length) && <Button loadMoreFn={loadMoreFn} />}
+    </>
+  );
+};
 
 export default App;
