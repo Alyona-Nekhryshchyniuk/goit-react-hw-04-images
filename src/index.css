@@ -1,6 +1,7 @@
 @import-normalize; /* bring in normalize.css styles */
 
 body {
+  font-size: 20px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,4 +13,24 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 15px;
+  border: 1px solid rgb(18, 11, 31);
+  background-color: rgb(184, 176, 190);
+  color: rgb(27, 3, 49);
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: inherit;
+}
+
+.error {
+  color: red;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  padding-top: 150px;
 }
