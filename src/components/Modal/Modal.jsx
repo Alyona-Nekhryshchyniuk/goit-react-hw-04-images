@@ -4,8 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
-const Modal = ({ closeModal, onEscClick, onBackdropClick, children }) => {
-  console.log(closeModal);
+const Modal = ({ toggleModal, onEscClick, onBackdropClick, children }) => {
   const EscClickCallback = ({ code }) => onEscClick(code);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const Modal = ({ closeModal, onEscClick, onBackdropClick, children }) => {
         onBackdropClick(e.target, e.currentTarget);
       }}
     >
-      <button className={css['close-button']} onClick={() => closeModal()}>
+      <button className={css['close-button']} onClick={() => toggleModal()}>
         <FaRegWindowClose />
       </button>
       <div className={css.modal}>{children}</div>

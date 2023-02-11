@@ -8,6 +8,7 @@ const modalRoot = document.querySelector('#modal-root');
 
 const ImageGalleryItem = ({ items }) => {
   const [modal, setModal] = useState(false);
+  const [largeImgUrl, setlargeImgUrl] = useState('');
 
   const onEscClick = code => {
     if (code === 'Escape' && modal) {
@@ -16,7 +17,7 @@ const ImageGalleryItem = ({ items }) => {
   };
 
   const toggleModal = () => {
-    setModal(prevModal => !prevModal);
+    setModal(!modal);
   };
 
   const onBackdropClick = (target, currentTarget) => {
@@ -29,6 +30,7 @@ const ImageGalleryItem = ({ items }) => {
         className={css['gallery-item']}
         key={id}
         onClick={() => {
+          setlargeImgUrl(largeImageURL);
           toggleModal();
         }}
       >
@@ -36,11 +38,11 @@ const ImageGalleryItem = ({ items }) => {
         {modal &&
           createPortal(
             <Modal
-              closeModal={toggleModal}
+              toggleModal={toggleModal}
               onEscClick={onEscClick}
               onBackdropClick={onBackdropClick}
             >
-              <img src={largeImageURL} alt={type} />
+              <img src={largeImgUrl} alt={type} />
             </Modal>,
             modalRoot
           )}
