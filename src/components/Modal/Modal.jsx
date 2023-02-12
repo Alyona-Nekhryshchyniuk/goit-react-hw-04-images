@@ -4,8 +4,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
-const Modal = ({ toggleModal, onEscClick, onBackdropClick, children }) => {
-  const EscClickCallback = ({ code }) => onEscClick(code);
+const Modal = ({ dispatch, children }) => {
+  const EscClickCallback = ({ code }) =>
+    dispatch({ type: 'escClick', payload: { code } });
 
   useEffect(() => {
     document.addEventListener('keydown', EscClickCallback);
@@ -13,15 +14,21 @@ const Modal = ({ toggleModal, onEscClick, onBackdropClick, children }) => {
       document.removeEventListener('keydown', EscClickCallback);
     };
   }, []);
-
+  console.log('in modal');
   return (
     <div
       className={css.overlay}
       onClick={e => {
-        onBackdropClick(e.target, e.currentTarget);
+        const target = e.target;
+        const currentTarget = e.currentTarget;
+        dispatch({ type: 'backdropClick', payload: { target, currentTarget } });
+        // onBackdropClick(e.target, e.currentTarget);
       }}
     >
-      <button className={css['close-button']} onClick={() => toggleModal()}>
+      <button
+        className={css['close-button']}
+        onClick={() => dispatch({ type: 'toggle' })}
+      >
         <FaRegWindowClose />
       </button>
       <div className={css.modal}>{children}</div>
