@@ -14,15 +14,15 @@ const Modal = ({ dispatch, children }) => {
       document.removeEventListener('keydown', EscClickCallback);
     };
   }, []);
-  console.log('in modal');
+
   return (
     <div
       className={css.overlay}
       onClick={e => {
         const target = e.target;
         const currentTarget = e.currentTarget;
+        e.stopPropagation();
         dispatch({ type: 'backdropClick', payload: { target, currentTarget } });
-        // onBackdropClick(e.target, e.currentTarget);
       }}
     >
       <button
