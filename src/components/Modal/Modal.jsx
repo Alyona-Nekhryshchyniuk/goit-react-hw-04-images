@@ -12,7 +12,7 @@ const Modal = ({ dispatch, children }) => {
     return () => {
       document.removeEventListener('keydown', EscClickCallback);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <div
