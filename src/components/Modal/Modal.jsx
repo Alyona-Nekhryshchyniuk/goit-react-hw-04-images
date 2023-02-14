@@ -27,7 +27,10 @@ const Modal = ({ dispatch, children }) => {
     >
       <button
         className={css['close-button']}
-        onClick={() => dispatch({ type: 'toggle' })}
+        onClick={e => {
+          e.stopPropagation();
+          dispatch({ type: 'toggle' });
+        }}
       >
         <FaRegWindowClose />
       </button>

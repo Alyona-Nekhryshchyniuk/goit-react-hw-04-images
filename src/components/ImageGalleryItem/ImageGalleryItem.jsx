@@ -9,10 +9,9 @@ const modalRoot = document.querySelector('#modal-root');
 
 const ImageGalleryItem = ({ items }) => {
   const largeImgRef = useRef('');
-  console.log('rerender');
 
   const [modal, dispatch] = useReducer(reducer, false);
-  console.log(modal);
+
   return items.map(({ id, webformatURL, largeImageURL, type }) => {
     return (
       <li
