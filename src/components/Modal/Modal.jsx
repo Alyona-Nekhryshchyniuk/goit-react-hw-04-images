@@ -5,15 +5,14 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
 const Modal = ({ dispatch, children }) => {
-  const EscClickCallback = ({ code }) =>
-    dispatch({ type: 'escClick', payload: { code } });
-
   useEffect(() => {
+    const EscClickCallback = ({ code }) =>
+      dispatch({ type: 'escClick', payload: { code } });
     document.addEventListener('keydown', EscClickCallback);
     return () => {
       document.removeEventListener('keydown', EscClickCallback);
     };
-  }, [EscClickCallback]);
+  }, []);
 
   return (
     <div
