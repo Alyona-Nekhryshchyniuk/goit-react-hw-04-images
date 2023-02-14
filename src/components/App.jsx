@@ -10,7 +10,6 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
-  const [loadMore, setLoadMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -20,7 +19,6 @@ const App = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        setLoadMore(false);
         const { data } = await getApiImages(searchQuery, page);
         setItems(prevItems => [...prevItems, ...data.hits]);
       } catch ({ message }) {
@@ -40,7 +38,6 @@ const App = () => {
 
   const loadMoreFn = () => {
     setPage(prevPage => (prevPage += 1));
-    setLoadMore(prevLoad => !prevLoad);
   };
 
   return (

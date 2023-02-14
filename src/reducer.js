@@ -9,5 +9,7 @@ export function reducer(modal, action) {
       break;
     case 'toggle':
       return !modal;
+    default:
+      return modal;
   }
 }
