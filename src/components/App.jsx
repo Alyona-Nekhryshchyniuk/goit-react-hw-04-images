@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Searchbar from './Searchbar/Searchbar';
 import { getApiImages } from '../services/services';
 import ImageGallery from './ImageGallery/ImageGallery';
